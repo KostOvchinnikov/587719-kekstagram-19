@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм» [![Build status][travis-image]][travis-url]
 
 * Студент: [Константин Овчинников](https://up.htmlacademy.ru/javascript/19/user/587719).
-* Наставник: `Неизвестно`.
+* Наставник: [Дмитрий Рябинин](https://up.htmlacademy.ru/javascript/19/user/63289).
 
 ---
 
