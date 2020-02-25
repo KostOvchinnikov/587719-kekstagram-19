@@ -78,14 +78,16 @@ var data = generateData(25);
 var pictureListElement = document.querySelector('.pictures');
 var pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
-for (var i = 0; i < data.length; i++) {
-  var pictureElement = pictureTemplate.cloneNode(true);
+var renderPictures = function () {
+  var fragment = document.createDocumentFragment();
+  for (var i = 0; i < data.length; i++) {
+    var pictureElement = pictureTemplate.cloneNode(true);
+    pictureElement.querySelector('.picture__img').src = data[i].url;
+    pictureElement.querySelector('.picture__comments').textContent = data[i].comments;
+    pictureElement.querySelector('.picture__likes').textContent = data[i].likes;
+    fragment.appendChild(pictureElement);
+  }
+  pictureListElement.appendChild(fragment);
+};
 
-  pictureElement.querySelector('.picture__img').src = data[i].url;
-
-  pictureElement.querySelector('.picture__comments').textContent = data[i].comments;
-  pictureElement.querySelector('.picture__likes').textContent = data[i].likes;
-
-
-  pictureListElement.appendChild(pictureElement);
-}
+renderPictures();
