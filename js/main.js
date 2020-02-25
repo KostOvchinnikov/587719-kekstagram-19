@@ -29,27 +29,63 @@ var messageData = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
 ];
 
+// console.log(getComments());
+
 var generateData = function (num) {
   var data = [];
   for (var i = 1; i <= num; i++) {
-    var getMessage = messageData[getRandomInt(0, 5)];
-    var getLikes = getRandomInt(15, 200);
-    var getComments = Math.floor(Math.random() * 30);
-
-    data.push ({
-      avatar: 'img/avatar-' + getRandomInt(1, 6) + '.svg',
-      message: getMessage,
-      name: namesData[getRandomInt(0, 10)],
+    var likes = getRandomInt(15, 200);
+    var comments = Math.floor(Math.random() * 30);
+    data.push({
       url: 'photos/' + [i] + '.jpg',
       description: '',
-      likes: getLikes,
-      comments: getComments
-    })
-
+      comments: comments,
+      likes: likes
+    });
   }
   return data;
 };
 
+var getRandomItem = function (array) {
+  var randomIndex = getRandomInt(0, array.length - 1);
+  return array[randomIndex];
+};
+
+getRandomItem(namesData);
+getRandomItem(messageData);
+
+var generateComments = function (number) {
+  var commentsData = [];
+  for (var j = 1; j <= number; j++) {
+    commentsData.push({
+      avatar: 'img/avatar-' + getRandomInt(1, 6) + '.svg',
+      name: getRandomItem(namesData),
+      message: getRandomItem(messageData)
+    });
+  }
+
+  return commentsData;
+};
+
+generateComments(25);
+
+// console.log(commentsData);
+
 var data = generateData(25);
 
 // console.log(data);
+
+var pictureListElement = document.querySelector('.pictures');
+var pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
+
+for (var i = 0; i < data.length; i++) {
+  var pictureElement = pictureTemplate.cloneNode(true);
+
+  pictureElement.querySelector('.picture__img').src = data[i].url;
+
+  pictureElement.querySelector('.picture__comments').textContent = data[i].comments;
+  pictureElement.querySelector('.picture__likes').textContent = data[i].likes;
+
+
+  pictureListElement.appendChild(pictureElement);
+}
