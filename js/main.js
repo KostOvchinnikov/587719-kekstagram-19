@@ -93,3 +93,41 @@ var renderPictures = function () {
 renderPictures();
 
 // console.log(renderPictures());
+
+var bigPicture = document.querySelector('.big-picture');
+bigPicture.classList.remove('hidden');
+
+var makeElement = function (tagName, className, text) {
+  var element = document.createElement(tagName);
+  element.classList.add(className);
+  if (text) {
+    element.textContent = text;
+  }
+
+  return element;
+};
+
+var createComment = function (commentsData) {
+  var listItem = makeElement('li', 'social__comment');
+
+  var avatar = makeElement('img', 'social__picture');
+  avatar.src = commentsData[i].avatar;
+  avatar.alt = commentsData[i].name;
+  avatar.width = '35';
+  avatar.height = '35';
+  listItem.appendChild(avatar);
+
+  var commentMessage = makeElement('p', 'social__text', commentsData[i].message);
+  listItem.appendChild(commentMessage);
+
+  return listItem;
+};
+
+// console.log(createComment);
+
+// var commentList = document.querySelector('.social__comments');
+
+// for (var i = 0; i < commentsData.length; i++) {
+
+// }
+
