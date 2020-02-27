@@ -29,22 +29,13 @@ var messageData = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
 ];
 
-// console.log(getComments());
-
-var generateData = function (num) {
-  var data = [];
-  for (var i = 1; i <= num; i++) {
-    var likes = getRandomInt(15, 200);
-    var comments = Math.floor(Math.random() * 30);
-    data.push({
-      url: 'photos/' + [i] + '.jpg',
-      description: '',
-      comments: comments,
-      likes: likes
-    });
-  }
-  return data;
-};
+var descriptionData = [
+  'Офигенская фотка!',
+  'Зацените как снимает новый iPhone',
+  'Смотри чего умею!',
+  'Случайное описание к фотографии.',
+  'Еще более случайное описание'
+];
 
 var getRandomItem = function (array) {
   var randomIndex = getRandomInt(0, array.length - 1);
@@ -53,6 +44,7 @@ var getRandomItem = function (array) {
 
 getRandomItem(namesData);
 getRandomItem(messageData);
+getRandomItem(descriptionData);
 
 var generateComments = function (number) {
   var commentsData = [];
@@ -63,33 +55,77 @@ var generateComments = function (number) {
       message: getRandomItem(messageData)
     });
   }
-
   return commentsData;
 };
 
-generateComments(25);
+generateComments(Math.floor(Math.random() * 30));
 
-// console.log(commentsData);
+var generateData = function (num) {
+  var data = [];
+  for (var i = 1; i <= num; i++) {
+    var likes = getRandomInt(15, 200);
+    data.push({
+      url: 'photos/' + [i] + '.jpg',
+      description: getRandomItem(descriptionData),
+      comments: generateComments(Math.floor(Math.random() * 10)),
+      likes: likes
+    });
+  }
+  return data;
+};
 
 var data = generateData(25);
-
-// console.log(data);
 
 var pictureListElement = document.querySelector('.pictures');
 var pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
-var renderPictures = function () {
+var renderPictures = function (array) {
   var fragment = document.createDocumentFragment();
-  for (var i = 0; i < data.length; i++) {
+  for (var i = 0; i < array.length; i++) {
     var pictureElement = pictureTemplate.cloneNode(true);
-    pictureElement.querySelector('.picture__img').src = data[i].url;
-    pictureElement.querySelector('.picture__comments').textContent = data[i].comments;
-    pictureElement.querySelector('.picture__likes').textContent = data[i].likes;
+    pictureElement.querySelector('.picture__img').src = array[i].url;
+    pictureElement.querySelector('.picture__comments').textContent = array[i].comments.length;
+    pictureElement.querySelector('.picture__likes').textContent = array[i].likes;
     fragment.appendChild(pictureElement);
   }
   pictureListElement.appendChild(fragment);
 };
 
-renderPictures();
+renderPictures(data);
 
-// console.log(renderPictures());
+
+var commentsList = document.querySelector('.social__comments');
+var commentListElement = document.querySelector('.social__comment');
+
+var renderComments = function (array) {
+  var commentFragment = document.createDocumentFragment();
+  commentsList.innerHTML = '';
+  for (var i = 0; i < array.length; i++) {
+    var commentElement = commentListElement.cloneNode(true);
+    commentElement.querySelector('.social__picture').src = array[i].avatar;
+    commentElement.querySelector('.social__picture').alt = array[i].name;
+    commentElement.querySelector('.social__picture').width = '35';
+    commentElement.querySelector('.social__picture').height = '35';
+    commentElement.querySelector('.social__text').textContent = array[i].message;
+    commentFragment.appendChild(commentElement);
+  }
+  commentsList.appendChild(commentFragment);
+
+};
+
+var bigPicture = document.querySelector('.big-picture');
+
+var showBigPicture = function (obj) {
+  bigPicture.querySelector('.social__comment-count').classList.add('hidden');
+  bigPicture.querySelector('.comments-loader').classList.add('hidden');
+  bigPicture.classList.remove('hidden');
+  document.querySelector('body').classList.add('modal-open');
+  renderComments(obj.comments);
+  bigPicture.querySelector('.big-picture__img').querySelector('img').src = obj.url;
+  bigPicture.querySelector('.big-picture__img').querySelector('img').alt = obj.description;
+  bigPicture.querySelector('.social__caption').textContent = obj.description;
+  bigPicture.querySelector('.likes-count').textContent = obj.likes;
+};
+
+showBigPicture(data[11]);
+
