@@ -127,5 +127,83 @@ var showBigPicture = function (obj) {
   bigPicture.querySelector('.likes-count').textContent = obj.likes;
 };
 
-showBigPicture(data[11]);
+// showBigPicture(data[11]);
 
+var uploadButton = document.querySelector('#upload-file');
+var editForm = document.querySelector('.img-upload__overlay');
+var cancelButton = editForm.querySelector('#upload-cancel');
+
+
+// Заменить на 'change';
+uploadButton.addEventListener('change', function (evt) {
+  evt.preventDefault();
+  document.querySelector('body').classList.add('modal-open');
+  editForm.classList.remove('hidden');
+
+  document.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === 27) {
+      editForm.classList.add('hidden');
+    }
+  });
+});
+
+cancelButton.addEventListener('click', function () {
+  editForm.classList.add('hidden');
+});
+
+
+// Фильтр приближения фотографии.
+
+// var scaleControl = editForm.querySelector('.scale__control--value');
+// var controlSmaller = editForm.querySelector('.scale__control--smaller');
+// var controlBigger = editForm.querySelector('.scale__control--bigger');
+
+// scaleControl.value = 50;
+
+// var controlValue = function (obj) {
+//   if (obj.value > 0) {
+//     controlSmaller.addEventListener('click', function () {
+//       obj.value = Math.floor(obj.value - ((obj.value / 100) * 25));
+//     });
+//   }
+
+//   if (obj.value < 100) {
+//     controlBigger.addEventListener('click', function () {
+//       obj.value = Math.floor(obj.value + ((obj.value / 100) * 25));
+//     });
+//   }
+
+//   return obj.value;
+// };
+
+/*
+
+controlSmaller.addEventListener('click', function () {
+  if (scaleControl.value >= 0) {
+    Math.floor(scaleControl.value - ((scaleControl.value / 100) * 25));
+  }
+
+  return scaleControl.value;
+});
+
+controlBigger.addEventListener('click', function () {
+  if (scaleControl.value <= 100) {
+    Math.floor(scaleControl.value + ((scaleControl.value / 100) * 25));
+  }
+
+  return scaleControl.value;
+});
+
+*/
+var hashtags = editForm.querySelector('.text__hashtags');
+// MAX_TAGS = 20;
+
+hashtags.addEventListener('invalid', function (evt) {
+  if (!hashtags.value.startsWith('#')) {
+    hashtags.setCustomValidity('Хэштег должен начинаться с #');
+  }
+});
+
+if (!hashtags.value.startsWith('#')) {
+  hashtags.pushErrorMessage('Хэштег должен начинаться с #');
+}
