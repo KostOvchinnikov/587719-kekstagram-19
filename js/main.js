@@ -129,19 +129,46 @@ var showBigPicture = function (obj) {
 
 // showBigPicture(data[11]);
 
+var ESC = 27;
 var uploadButton = document.querySelector('#upload-file');
 var editForm = document.querySelector('.img-upload__overlay');
 var cancelButton = editForm.querySelector('#upload-cancel');
 
+var pressEsc = function (evt) {
+  if (evt.keyCode === ESC) {
+    cancelForm();
+  }
+};
 
+var openForm = function () {
+  document.querySelector('body').classList.add('modal-open');
+  editForm.classList.remove('hidden');
+  document.addEventListener('keydown', pressEsc);
+};
+
+var cancelForm = function () {
+  editForm.classList.add('hidden');
+  document.querySelector('body').classList.remove('modal-open');
+  document.removeEventListener('keydown', pressEsc);
+};
+
+uploadButton.addEventListener('click', function (evt) {
+  evt.preventDefault();
+  openForm();
+});
+
+cancelButton.addEventListener('click', function () {
+  cancelForm();
+});
 // Заменить на 'change';
+/*
 uploadButton.addEventListener('change', function (evt) {
   evt.preventDefault();
   document.querySelector('body').classList.add('modal-open');
   editForm.classList.remove('hidden');
 
   document.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === 27) {
+    if (!hashtags.focus && evt.keyCode === ESC) {
       editForm.classList.add('hidden');
     }
   });
@@ -150,60 +177,40 @@ uploadButton.addEventListener('change', function (evt) {
 cancelButton.addEventListener('click', function () {
   editForm.classList.add('hidden');
 });
-
-
-// Фильтр приближения фотографии.
-
-// var scaleControl = editForm.querySelector('.scale__control--value');
-// var controlSmaller = editForm.querySelector('.scale__control--smaller');
-// var controlBigger = editForm.querySelector('.scale__control--bigger');
-
-// scaleControl.value = 50;
-
-// var controlValue = function (obj) {
-//   if (obj.value > 0) {
-//     controlSmaller.addEventListener('click', function () {
-//       obj.value = Math.floor(obj.value - ((obj.value / 100) * 25));
-//     });
-//   }
-
-//   if (obj.value < 100) {
-//     controlBigger.addEventListener('click', function () {
-//       obj.value = Math.floor(obj.value + ((obj.value / 100) * 25));
-//     });
-//   }
-
-//   return obj.value;
-// };
-
-/*
-
-controlSmaller.addEventListener('click', function () {
-  if (scaleControl.value >= 0) {
-    Math.floor(scaleControl.value - ((scaleControl.value / 100) * 25));
-  }
-
-  return scaleControl.value;
-});
-
-controlBigger.addEventListener('click', function () {
-  if (scaleControl.value <= 100) {
-    Math.floor(scaleControl.value + ((scaleControl.value / 100) * 25));
-  }
-
-  return scaleControl.value;
-});
-
 */
-var hashtags = editForm.querySelector('.text__hashtags');
-// MAX_TAGS = 20;
 
-hashtags.addEventListener('invalid', function (evt) {
-  if (!hashtags.value.startsWith('#')) {
-    hashtags.setCustomValidity('Хэштег должен начинаться с #');
+var hashtags = editForm.querySelector('.text__hashtags');
+var regexp = /[$%@#]+$/;
+var MAX_HASH_CHARACTERS = 20;
+var MAX_HASH = 5;
+
+hashtags.addEventListener('input', function () {
+  var string = hashtags.value;
+  var hashtagsArray = string.split(' ');
+
+  for (var i = 0; i < hashtagsArray.length; i++) {
+    var hash = hashtagsArray[i];
+
+    if (!hash.startsWith('#')) {
+      hashtags.setCustomValidity('Хэш-Тег до лжен начинаться с #');
+    } else if (hash.length > MAX_HASH_CHARACTERS) {
+      hashtags.setCustomValidity('Не может содержать больше ' + MAX_HASH_CHARACTERS + ' символов!');
+    } else if (hashtagsArray.length > MAX_HASH) {
+      hashtags.setCustomValidity('Нельзя указать больше ' + MAX_HASH + 'ти хэш-тегов!');
+    } else if (hash.length === 1) {
+      hashtags.setCustomValidity('Хэш тег не может состоять из одного символа!');
+    } else if (hash.match(regexp)) {
+      hashtags.setCustomValidity('Не должен содержать сторонних символов!');
+    } else if (hashtagsArray.indexOf(hash) !== hashtagsArray.lastIndexOf(hash)) {
+      hashtags.setCustomValidity('Хэштеги не должны повторяться!');
+    } else {
+      hashtags.setCustomValidity('');
+    }
+  }
+
+  if (hashtags.focus) {
+    document.removeEventListener('keydown', pressEsc);
+  } else if (!hashtags.focus) {
+    document.addEventListener('keydown', pressEsc);
   }
 });
-
-if (!hashtags.value.startsWith('#')) {
-  hashtags.pushErrorMessage('Хэштег должен начинаться с #');
-}
