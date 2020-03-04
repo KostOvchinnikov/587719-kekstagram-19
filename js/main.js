@@ -197,8 +197,6 @@ hashtags.addEventListener('input', function () {
     } else if (hashtagsArray.indexOf(hash) !== hashtagsArray.lastIndexOf(hash)) {
       errorMessage = 'Хэш-Теги не должны повторяться!';
       break;
-    } else {
-      errorMessage = '';
     }
   }
 
