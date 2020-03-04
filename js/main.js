@@ -79,13 +79,24 @@ var data = generateData(25);
 var pictureListElement = document.querySelector('.pictures');
 var pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
+var renderPicture = function (obj) {
+  var pictureElement = pictureTemplate.cloneNode(true);
+  pictureElement.querySelector('.picture__img').src = obj.url;
+  pictureElement.querySelector('.picture__comments').textContent = obj.comments.length;
+  pictureElement.querySelector('.picture__likes').textContent = obj.likes;
+
+
+  pictureElement.addEventListener('click', function () {
+    showBigPicture(obj);
+  });
+
+  return pictureElement;
+};
+
 var renderPictures = function (array) {
   var fragment = document.createDocumentFragment();
   for (var i = 0; i < array.length; i++) {
-    var pictureElement = pictureTemplate.cloneNode(true);
-    pictureElement.querySelector('.picture__img').src = array[i].url;
-    pictureElement.querySelector('.picture__comments').textContent = array[i].comments.length;
-    pictureElement.querySelector('.picture__likes').textContent = array[i].likes;
+    var pictureElement = renderPicture(array[i]);
     fragment.appendChild(pictureElement);
   }
   pictureListElement.appendChild(fragment);
@@ -114,7 +125,6 @@ var renderComments = function (array) {
 };
 
 var bigPicture = document.querySelector('.big-picture');
-var openPicture = document.querySelectorAll('.picture');
 var closePicture = bigPicture.querySelector('.big-picture__cancel');
 var textArea = document.querySelector('.social__footer-text');
 
@@ -137,16 +147,6 @@ var cancelPicture = function () {
   bigPicture.querySelector('.comments-loader').classList.remove('hidden');
   document.querySelector('body').classList.remove('modal-open');
 };
-
-var showBigPhoto = function (thumbnail, obj) {
-  thumbnail.addEventListener('click', function () {
-    showBigPicture(obj);
-  });
-};
-
-for (var i = 0; i < openPicture.length; i++) {
-  showBigPhoto(openPicture[i], data[i]);
-}
 
 closePicture.addEventListener('click', function () {
   cancelPicture();
