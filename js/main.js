@@ -114,7 +114,9 @@ var renderComments = function (array) {
 };
 
 var bigPicture = document.querySelector('.big-picture');
-var openPicture = document.querySelector('.picture');
+var openPicture = document.querySelectorAll('.picture');
+var closePicture = bigPicture.querySelector('.big-picture__cancel');
+var textArea = document.querySelector('.social__footer-text');
 
 var showBigPicture = function (obj) {
   bigPicture.querySelector('.social__comment-count').classList.add('hidden');
@@ -126,21 +128,44 @@ var showBigPicture = function (obj) {
   bigPicture.querySelector('.big-picture__img').querySelector('img').alt = obj.description;
   bigPicture.querySelector('.social__caption').textContent = obj.description;
   bigPicture.querySelector('.likes-count').textContent = obj.likes;
+  document.addEventListener('keydown', pressEsc);
 };
 
-openPicture.addEventListener('click', function () {
-  showBigPicture(data[11]);
+var cancelPicture = function () {
+  bigPicture.classList.add('hidden');
+  bigPicture.querySelector('.social__comment-count').classList.remove('hidden');
+  bigPicture.querySelector('.comments-loader').classList.remove('hidden');
+  document.querySelector('body').classList.remove('modal-open');
+};
+
+var showBigPhoto = function (thumbnail, obj) {
+  thumbnail.addEventListener('click', function () {
+    showBigPicture(obj);
+  });
+};
+
+for (var i = 0; i < openPicture.length; i++) {
+  showBigPhoto(openPicture[i], data[i]);
+}
+
+closePicture.addEventListener('click', function () {
+  cancelPicture();
+  document.removeEventListener('keydown', pressEsc);
 });
-// showBigPicture(data[11]);
 
 var ESC = 27;
 var uploadButton = document.querySelector('#upload-file');
 var editForm = document.querySelector('.img-upload__overlay');
 var cancelButton = editForm.querySelector('#upload-cancel');
+var commentArea = editForm.querySelector('.text__description');
 
 var pressEsc = function (evt) {
-  if (hashtags !== document.activeElement && evt.keyCode === ESC) {
+  if (hashtags !== document.activeElement
+    && commentArea !== document.activeElement
+    && textArea !== document.activeElement
+    && evt.keyCode === ESC) {
     cancelForm();
+    cancelPicture();
   }
 };
 
