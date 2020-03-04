@@ -114,6 +114,7 @@ var renderComments = function (array) {
 };
 
 var bigPicture = document.querySelector('.big-picture');
+var openPicture = document.querySelector('.picture');
 
 var showBigPicture = function (obj) {
   bigPicture.querySelector('.social__comment-count').classList.add('hidden');
@@ -127,6 +128,9 @@ var showBigPicture = function (obj) {
   bigPicture.querySelector('.likes-count').textContent = obj.likes;
 };
 
+openPicture.addEventListener('click', function () {
+  showBigPicture(data[11]);
+});
 // showBigPicture(data[11]);
 
 var ESC = 27;
@@ -135,7 +139,7 @@ var editForm = document.querySelector('.img-upload__overlay');
 var cancelButton = editForm.querySelector('#upload-cancel');
 
 var pressEsc = function (evt) {
-  if (evt.keyCode === ESC) {
+  if (hashtags !== document.activeElement && evt.keyCode === ESC) {
     cancelForm();
   }
 };
@@ -152,7 +156,7 @@ var cancelForm = function () {
   document.removeEventListener('keydown', pressEsc);
 };
 
-uploadButton.addEventListener('click', function (evt) {
+uploadButton.addEventListener('change', function (evt) {
   evt.preventDefault();
   openForm();
 });
@@ -160,24 +164,6 @@ uploadButton.addEventListener('click', function (evt) {
 cancelButton.addEventListener('click', function () {
   cancelForm();
 });
-// Заменить на 'change';
-/*
-uploadButton.addEventListener('change', function (evt) {
-  evt.preventDefault();
-  document.querySelector('body').classList.add('modal-open');
-  editForm.classList.remove('hidden');
-
-  document.addEventListener('keydown', function (evt) {
-    if (!hashtags.focus && evt.keyCode === ESC) {
-      editForm.classList.add('hidden');
-    }
-  });
-});
-
-cancelButton.addEventListener('click', function () {
-  editForm.classList.add('hidden');
-});
-*/
 
 var hashtags = editForm.querySelector('.text__hashtags');
 var regexp = /[$%@#]+$/;
@@ -187,30 +173,35 @@ var MAX_HASH = 5;
 hashtags.addEventListener('input', function () {
   var string = hashtags.value;
   var hashtagsArray = string.split(' ');
+  var errorMessage = '';
+
+  if (hashtagsArray.length > MAX_HASH) {
+    errorMessage = 'Нельзя указать больше ' + MAX_HASH + 'ти хэш-тегов!';
+  }
 
   for (var i = 0; i < hashtagsArray.length; i++) {
     var hash = hashtagsArray[i];
 
     if (!hash.startsWith('#')) {
-      hashtags.setCustomValidity('Хэш-Тег до лжен начинаться с #');
+      errorMessage = 'Хэш-Тег должен начинаться с #';
+      break;
     } else if (hash.length > MAX_HASH_CHARACTERS) {
-      hashtags.setCustomValidity('Не может содержать больше ' + MAX_HASH_CHARACTERS + ' символов!');
-    } else if (hashtagsArray.length > MAX_HASH) {
-      hashtags.setCustomValidity('Нельзя указать больше ' + MAX_HASH + 'ти хэш-тегов!');
+      errorMessage = 'Не может содержать больше ' + MAX_HASH_CHARACTERS + ' символов!';
+      break;
     } else if (hash.length === 1) {
-      hashtags.setCustomValidity('Хэш тег не может состоять из одного символа!');
+      errorMessage = 'Хэш-Тег не может состоять из одного символа!';
+      break;
     } else if (hash.match(regexp)) {
-      hashtags.setCustomValidity('Не должен содержать сторонних символов!');
+      errorMessage = 'Хэш-Тег не должен содержать сторонних символов!';
+      break;
     } else if (hashtagsArray.indexOf(hash) !== hashtagsArray.lastIndexOf(hash)) {
-      hashtags.setCustomValidity('Хэштеги не должны повторяться!');
+      errorMessage = 'Хэш-Теги не должны повторяться!';
+      break;
     } else {
-      hashtags.setCustomValidity('');
+      errorMessage = '';
     }
   }
 
-  if (hashtags.focus) {
-    document.removeEventListener('keydown', pressEsc);
-  } else if (!hashtags.focus) {
-    document.addEventListener('keydown', pressEsc);
-  }
+  hashtags.setCustomValidity(errorMessage);
+
 });
