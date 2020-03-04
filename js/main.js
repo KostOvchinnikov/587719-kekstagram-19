@@ -152,11 +152,11 @@ var closeBigPicture = function () {
   bigPicture.querySelector('.social__comment-count').classList.remove('hidden');
   bigPicture.querySelector('.comments-loader').classList.remove('hidden');
   document.querySelector('body').classList.remove('modal-open');
+  document.removeEventListener('keydown', onPressEsc);
 };
 
 closePicture.addEventListener('click', function () {
   closeBigPicture();
-  document.removeEventListener('keydown', onPressEsc);
 });
 
 var ESC = 27;
