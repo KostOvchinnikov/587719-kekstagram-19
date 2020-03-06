@@ -1,5 +1,9 @@
 'use strict';
 
+// data.js
+
+/*
+
 var getRandomInt = function (min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -76,6 +80,13 @@ var generateData = function (num) {
 
 var data = generateData(25);
 
+*/
+
+
+// picture.js
+
+/*
+
 var pictureListElement = document.querySelector('.pictures');
 var pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
@@ -87,7 +98,7 @@ var renderPicture = function (obj) {
 
 
   pictureElement.addEventListener('click', function () {
-    showBigPicture(obj);
+    window.showBigPicture(obj);
   });
 
   return pictureElement;
@@ -124,12 +135,18 @@ var renderComments = function (array) {
 
 };
 
+*/
+
+// preview.js
+
+
+/*
 var bigPicture = document.querySelector('.big-picture');
 var closePicture = bigPicture.querySelector('.big-picture__cancel');
 var textArea = document.querySelector('.social__footer-text');
 
 var onPressEsc = function (evt) {
-  if (textArea !== document.activeElement && evt.keyCode === ESC) {
+  if (textArea !== document.activeElement && evt.keyCode === window.ESC) {
     closeBigPicture();
   }
 };
@@ -159,6 +176,12 @@ closePicture.addEventListener('click', function () {
   closeBigPicture();
 });
 
+*/
+
+
+// form.js
+
+/*
 var ESC = 27;
 var uploadButton = document.querySelector('#upload-file');
 var editForm = document.querySelector('.img-upload__overlay');
@@ -232,3 +255,4 @@ hashtags.addEventListener('input', function () {
   hashtags.setCustomValidity(errorMessage);
 
 });
+*/
