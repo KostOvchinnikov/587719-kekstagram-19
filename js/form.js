@@ -27,7 +27,9 @@
     document.removeEventListener('keydown', pressEsc);
   };
 
-  uploadButton.addEventListener('change', function (evt) {
+
+  // Заменить на change
+  uploadButton.addEventListener('click', function (evt) {
     evt.preventDefault();
     openForm();
   });
@@ -73,6 +75,47 @@
 
     hashtags.setCustomValidity(errorMessage);
 
+  });
+
+  var MIN_LEVEL_PIN = 0;
+  var MAX_LEVEL_PIN = 450;
+
+
+  var effectPin = editForm.querySelector('.effect-level__pin');
+  var effectDepth = editForm.querySelector('.effect-level__depth');
+
+  effectPin.addEventListener('mousedown', function (evt) {
+    var startCoords = {
+      x: evt.clientX
+    };
+
+    var onMouseMove = function (moveEvt) {
+      moveEvt.preventDefault();
+
+      var shift = {
+        x: startCoords.x - moveEvt.clientX
+      };
+
+      startCoords = {
+        x: moveEvt.clientX
+      };
+
+      if (effectPin.offsetLeft <= MAX_LEVEL_PIN
+        && effectPin.offsetLeft >= MIN_LEVEL_PIN) {
+        effectPin.style.left = (effectPin.offsetLeft - shift.x) + 'px';
+        effectDepth.style.width = (effectDepth.offsetWidth - shift.x) + 'px';
+      }
+    };
+
+    var onMouseUp = function (upEvt) {
+      upEvt.preventDefault();
+
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+    };
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
   });
 
 })();
