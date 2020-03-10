@@ -27,9 +27,7 @@
     document.removeEventListener('keydown', pressEsc);
   };
 
-
-  // Заменить на change
-  uploadButton.addEventListener('click', function (evt) {
+  uploadButton.addEventListener('change', function (evt) {
     evt.preventDefault();
     openForm();
   });

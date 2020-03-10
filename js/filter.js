@@ -9,7 +9,6 @@
   var imgPreview = editForm.querySelector('.img-upload__preview');
 
   fieldset.addEventListener('change', function () {
-    // debugger;
     setEffectFilter(100);
   });
 
@@ -20,14 +19,19 @@
     } else if (checked.value === 'sepia') {
       imgPreview.style.filter = 'sepia(' + percantage * 0.01 + ')';
     } else if (checked.value === 'marvin') {
-      imgPreview.style.filter = 'invert(' + percantage + ')';
+      imgPreview.style.filter = 'invert(' + percantage + '%)';
     } else if (checked.value === 'phobos') {
       imgPreview.style.filter = 'blur(' + percantage * 0.03 + 'px)';
     } else if (checked.value === 'heat') {
-      imgPreview.style.filter = 'brightness(' + 1 + (percantage * 0.02) + ')';
+      imgPreview.style.filter = 'brightness(' + (1 + percantage * 0.02) + ')';
     } else if (checked.value === 'none') {
       imgPreview.style.filter = 'none';
     }
+
+    var x = (percantage * MAX_LEVEL_PIN) / 100;
+
+    effectPin.style.left = x + 'px';
+    effectDepth.style.width = x + 'px';
   };
 
   var effectPin = editForm.querySelector('.effect-level__pin');
@@ -45,15 +49,9 @@
       x = Math.max(x, MIN_LEVEL_PIN);
       x = Math.min(x, MAX_LEVEL_PIN);
 
-      effectPin.style.left = x + 'px';
-      effectDepth.style.width = x + 'px';
       var percant = Math.floor(x / (MAX_LEVEL_PIN / 100));
-      console.log(percant);
+      setEffectFilter(percant);
     };
-
-
-
-
 
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
