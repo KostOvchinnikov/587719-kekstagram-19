@@ -67,15 +67,16 @@
       var likes = getRandomInt(15, 200);
       data.push({
         url: 'photos/' + [i] + '.jpg',
-        description: getRandomItem(descriptionData),
+        likes: likes,
         comments: generateComments(Math.floor(Math.random() * 10)),
-        likes: likes
+        description: getRandomItem(descriptionData)
       });
     }
     return data;
   };
 
   var data = generateData(25);
+  // var data = window.load.parseData;
 
   window.data = {
     data: data

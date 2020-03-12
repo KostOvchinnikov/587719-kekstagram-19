@@ -27,6 +27,7 @@
     pictureListElement.appendChild(fragment);
   };
 
+  // renderPictures(window.load.parseData);
   renderPictures(window.data.data);
 
   window.picture = {
