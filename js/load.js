@@ -1,73 +1,42 @@
 'use strict';
-/*
+
 (function () {
 
   var URL = 'https://js.dump.academy/kekstagram/data';
-  // var StatusCode = {
-  //   OK: 200
-  // };
-  var TIMEOUT_IN_MS = 10000;
 
-  var xhr = new XMLHttpRequest();
-
-  xhr.addEventListener('load', function () {
-    var parseData = JSON.parse(xhr.responseText);
-    // console.log(JSON.parse(xhr.responseText));
-    return parseData;
-  });
-
-  xhr.open('GET', 'https://js.dump.academy/kekstagram/data');
-  xhr.send();
-
-  window.load = {
-    parseData: parseData
+  var StatusCode = {
+    OK: 200
   };
 
-  // window.load = function (onSuccess, onError) {
-  //   var xhr = new XMLHttpRequest();
-  //   xhr.responseType = 'json';
+  var TIMEOUT_IN_MS = 10000;
 
-  //   // xhr.addEventListener('load', function () {
-  //   //   // if (xhr.status === StatusCode.OK) {
-  //   //   //   onSuccess(xhr.response);
-  //   //   // } else {
-  //   //   //   onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
-  //   //   // }
-  //   //   console.log(JSON.parse(xhr.responseText));
-  //   // });
+  var load = function (onSuccess, onError) {
 
-  //   xhr.addEventListener('error', function () {
-  //     onError('Произошла ошибка соединения');
-  //   });
+    var xhr = new XMLHttpRequest();
+    xhr.responseType = 'json';
 
-  //   xhr.addEventListener('timeout', function () {
-  //     onError('Запрос неуспел выполниться за ' + xhr.timeout + 'мс');
-  //   });
+    xhr.addEventListener('load', function () {
+      if (xhr.status === StatusCode.OK) {
+        onSuccess(xhr.response);
+      } else {
+        onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
+      }
+    });
 
-  //   xhr.timeout = TIMEOUT_IN_MS;
+    xhr.addEventListener('error', function () {
+      onError('Произошла ошибка соединения');
+    });
 
-  //   xhr.open('GET', URL);
-  //   xhr.send();
-  // };
+    xhr.addEventListener('timeout', function () {
+      onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
+    });
 
-  // console.log(window.xhr.statusText);
-})();
-*/
-(function () {
+    xhr.timeout = TIMEOUT_IN_MS;
 
-  var xhr = new XMLHttpRequest();
+    xhr.open('GET', URL);
+    xhr.send();
+  };
 
-  xhr.addEventListener('load', function () {
-    console.log(JSON.parse(xhr.responseText));
-    var parseData = JSON.parse(xhr.responseText);
-    // console.log(parseData);
-
-    window.load = {
-      parseData: parseData
-    };
-  });
-
-  xhr.open('GET', 'https://js.dump.academy/kekstagram/data');
-  xhr.send();
+  window.load = load;
 
 })();

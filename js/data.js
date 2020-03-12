@@ -76,7 +76,6 @@
   };
 
   var data = generateData(25);
-  // var data = window.load.parseData;
 
   window.data = {
     data: data
