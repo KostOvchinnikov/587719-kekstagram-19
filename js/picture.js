@@ -27,9 +27,16 @@
     pictureListElement.appendChild(fragment);
   };
 
-  renderPictures(window.data.data);
+  // renderPictures(window.load.parseData);
+  // renderPictures(window.data.data);
 
-  window.picture = {
-    pictures: renderPictures
+  var onSuccess = function (array) {
+    renderPictures(array);
   };
+
+  var onError = function (error) {
+    error();
+  };
+
+  window.load(onSuccess, onError);
 })();
