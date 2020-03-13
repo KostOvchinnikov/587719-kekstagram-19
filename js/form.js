@@ -4,8 +4,11 @@
   var ESC = 27;
   var uploadButton = document.querySelector('#upload-file');
   var editForm = document.querySelector('.img-upload__overlay');
+  var uploadForm = document.querySelector('.img-upload__form');
   var cancelButton = editForm.querySelector('#upload-cancel');
   var commentArea = editForm.querySelector('.text__description');
+  var successTemplate = document.querySelector('#success').content.querySelector('.success');
+  var errorTemplate = document.querySelector('#error').content.querySelector('.error');
 
   var pressEsc = function (evt) {
     if (hashtags !== document.activeElement
@@ -25,6 +28,8 @@
     editForm.classList.add('hidden');
     document.querySelector('body').classList.remove('modal-open');
     document.removeEventListener('keydown', pressEsc);
+    hashtags.value = '';
+    commentArea.value = '';
   };
 
   uploadButton.addEventListener('change', function (evt) {
@@ -35,6 +40,21 @@
   cancelButton.addEventListener('click', function () {
     cancelForm();
   });
+
+  var onSuccess = function () {
+    cancelForm();
+    window.popup.renderPopup(successTemplate);
+  };
+
+  var onError = function () {
+    window.popup(errorTemplate);
+  };
+
+  uploadForm.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    window.upload(new FormData(uploadForm), onSuccess, onError);
+  });
+
 
   var hashtags = editForm.querySelector('.text__hashtags');
   var regexp = /[$%@#]+$/;
