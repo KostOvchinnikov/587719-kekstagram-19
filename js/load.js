@@ -4,7 +4,7 @@
 
   var URL = 'https://js.dump.academy/kekstagram/data';
 
-  var StatusCode = {
+  var statusCode = {
     OK: 200
   };
 
@@ -16,7 +16,7 @@
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
-      if (xhr.status === StatusCode.OK) {
+      if (xhr.status === statusCode.OK) {
         onSuccess(xhr.response);
       } else {
         onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);

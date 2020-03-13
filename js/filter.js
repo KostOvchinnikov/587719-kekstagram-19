@@ -4,12 +4,14 @@
 
   var MIN_LEVEL_PIN = 0;
   var MAX_LEVEL_PIN = 450;
+  var MAX_PERCANTAGE_VALUE = 100;
+  var DEFAULT_PERCANTAGE_VALUE = 20;
   var editForm = document.querySelector('.img-upload__overlay');
   var fieldset = editForm.querySelector('.img-upload__effects');
   var imgPreview = editForm.querySelector('.img-upload__preview');
 
   fieldset.addEventListener('change', function () {
-    setEffectFilter(100);
+    setEffectFilter(MAX_PERCANTAGE_VALUE);
   });
 
   var setEffectFilter = function (percantage) {
@@ -32,6 +34,11 @@
 
     effectPin.style.left = x + 'px';
     effectDepth.style.width = x + 'px';
+  };
+
+  var filterReset = function () {
+    imgPreview.style.filter = 'none';
+    setEffectFilter(DEFAULT_PERCANTAGE_VALUE);
   };
 
   var effectPin = editForm.querySelector('.effect-level__pin');
@@ -63,6 +70,8 @@
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
   });
+
+  window.filter = filterReset;
 
 })();
 

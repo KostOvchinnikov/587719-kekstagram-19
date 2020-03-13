@@ -13,29 +13,52 @@
     var successButton = successElement.querySelector('.success__button');
     // var successInner = successElement.querySelector('.success__inner');
 
-    // successElement.addEventListener('click', function () {
-    //   if (!successInner) {
-    //     close();
-    //   }
-    // });
+    successElement.addEventListener('click', function (evt) {
+      if (evt.target.classList.contains('success')) {
+        close();
+      }
+    });
 
     successButton.addEventListener('click', function () {
       close();
-      document.querySelector('body').classList.remove('modal-open');
     });
+
+    document.addEventListener('keydown', pressEsc);
   };
 
-  var renderErorr = function () {
+  var renderError = function () {
     var element = errorTemplate.cloneNode(true);
 
     document.querySelector('main').appendChild(element);
     document.querySelector('body').classList.add('modal-open');
+    var errorElement = document.querySelector('.error');
+    var errorButton = errorElement.querySelector('.error__button');
+
+    errorElement.addEventListener('click', function (evt) {
+      if (evt.target.classList.contains('error')) {
+        close();
+      }
+    });
+
+    errorButton.addEventListener('click', function () {
+      close();
+    });
+
+    document.addEventListener('keydown', pressEsc);
   };
 
   var close = function () {
     var element = document.querySelector('.success,.error');
     if (element) {
       element.remove();
+      document.querySelector('body').classList.remove('modal-open');
+      document.removeEventListener('keydown', pressEsc);
+    }
+  };
+
+  var pressEsc = function (evt) {
+    if (evt.keyCode === window.common.ESC) {
+      close();
     }
   };
 
@@ -47,8 +70,5 @@
     }
   };
 
-  window.status = {
-    renderSuccess: renderSuccess,
-    render: render
-  };
+  window.message = render;
 })();

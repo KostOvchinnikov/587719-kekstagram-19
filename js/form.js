@@ -26,8 +26,8 @@
     editForm.classList.add('hidden');
     document.querySelector('body').classList.remove('modal-open');
     document.removeEventListener('keydown', pressEsc);
-    hashtags.value = '';
-    commentArea.value = '';
+    uploadForm.reset();
+    window.filter();
   };
 
   uploadButton.addEventListener('change', function (evt) {
@@ -39,13 +39,17 @@
     cancelForm();
   });
 
+  var success = 'success';
+  var error = 'error';
+
   var onSuccess = function () {
     cancelForm();
-    window.status.renderSuccess();
+    window.message(success);
   };
 
   var onError = function () {
-    // window.popup();
+    cancelForm();
+    window.message(error);
   };
 
   uploadForm.addEventListener('submit', function (evt) {
