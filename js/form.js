@@ -7,8 +7,6 @@
   var uploadForm = document.querySelector('.img-upload__form');
   var cancelButton = editForm.querySelector('#upload-cancel');
   var commentArea = editForm.querySelector('.text__description');
-  var successTemplate = document.querySelector('#success').content.querySelector('.success');
-  var errorTemplate = document.querySelector('#error').content.querySelector('.error');
 
   var pressEsc = function (evt) {
     if (hashtags !== document.activeElement
@@ -43,11 +41,11 @@
 
   var onSuccess = function () {
     cancelForm();
-    window.popup.renderPopup(successTemplate);
+    window.status.renderSuccess();
   };
 
   var onError = function () {
-    window.popup(errorTemplate);
+    // window.popup();
   };
 
   uploadForm.addEventListener('submit', function (evt) {
