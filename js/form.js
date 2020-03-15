@@ -4,6 +4,7 @@
   var ESC = 27;
   var uploadButton = document.querySelector('#upload-file');
   var editForm = document.querySelector('.img-upload__overlay');
+  var uploadForm = document.querySelector('.img-upload__form');
   var cancelButton = editForm.querySelector('#upload-cancel');
   var commentArea = editForm.querySelector('.text__description');
 
@@ -25,6 +26,8 @@
     editForm.classList.add('hidden');
     document.querySelector('body').classList.remove('modal-open');
     document.removeEventListener('keydown', pressEsc);
+    uploadForm.reset();
+    window.filter();
   };
 
   uploadButton.addEventListener('change', function (evt) {
@@ -35,6 +38,25 @@
   cancelButton.addEventListener('click', function () {
     cancelForm();
   });
+
+  var onSuccess = function () {
+    cancelForm();
+    window.message.renderSuccess();
+  };
+
+  var error = 'Ошибка соединения...';
+  var errorButton = 'OK';
+
+  var onError = function () {
+    cancelForm();
+    window.message.renderError(error, errorButton);
+  };
+
+  uploadForm.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    window.server.upload(new FormData(uploadForm), onSuccess, onError);
+  });
+
 
   var hashtags = editForm.querySelector('.text__hashtags');
   var regexp = /[$%@#]+$/;
