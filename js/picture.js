@@ -38,5 +38,5 @@
     error();
   };
 
-  window.load(onSuccess, onError);
+  window.server.load(onSuccess, onError);
 })();

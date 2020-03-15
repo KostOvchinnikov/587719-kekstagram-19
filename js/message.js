@@ -26,13 +26,15 @@
     document.addEventListener('keydown', pressEsc);
   };
 
-  var renderError = function () {
+  var renderError = function (error, button) {
     var element = errorTemplate.cloneNode(true);
 
     document.querySelector('main').appendChild(element);
     document.querySelector('body').classList.add('modal-open');
     var errorElement = document.querySelector('.error');
     var errorButton = errorElement.querySelector('.error__button');
+    errorElement.querySelector('.error__title').textContent = error;
+    errorButton.textContent = button;
 
     errorElement.addEventListener('click', function (evt) {
       if (evt.target.classList.contains('error')) {
@@ -62,13 +64,8 @@
     }
   };
 
-  var render = function (status) {
-    if (status === 'success') {
-      renderSuccess();
-    } else if (status === 'error') {
-      renderError();
-    }
+  window.message = {
+    renderSuccess: renderSuccess,
+    renderError: renderError
   };
-
-  window.message = render;
 })();

@@ -39,22 +39,22 @@
     cancelForm();
   });
 
-  var success = 'success';
-  var error = 'error';
-
   var onSuccess = function () {
     cancelForm();
-    window.message(success);
+    window.message.renderSuccess();
   };
+
+  var error = 'Ошибка соединения...';
+  var errorButton = 'OK';
 
   var onError = function () {
     cancelForm();
-    window.message(error);
+    window.message.renderError(error, errorButton);
   };
 
   uploadForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
-    window.upload(new FormData(uploadForm), onSuccess, onError);
+    window.server.upload(new FormData(uploadForm), onSuccess, onError);
   });
 
 
