@@ -27,11 +27,27 @@
     pictureListElement.appendChild(fragment);
   };
 
-  // renderPictures(window.load.parseData);
-  // renderPictures(window.data.data);
+  var imgFilters = document.querySelector('.img-filters');
 
   var onSuccess = function (array) {
+    data = array;
     renderPictures(array);
+    imgFilters.classList.remove('img-filters--inactive');
+  };
+
+  var data = [];
+
+  var getData = function () {
+    return data;
+  };
+
+  window.picture = {
+    getData: getData
+  };
+
+  var getRandomData = function (array) {
+    var randomData = [];
+    return randomData;
   };
 
   var onError = function (error) {
@@ -39,4 +55,6 @@
   };
 
   window.server.load(onSuccess, onError);
+
+
 })();
