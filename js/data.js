@@ -78,7 +78,8 @@
   var data = generateData(25);
 
   window.data = {
-    data: data
+    data: data,
+    getRandomInt: getRandomInt
   };
 
 })();
