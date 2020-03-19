@@ -2,6 +2,8 @@
 
 (function () {
   var ESC = 27;
+  var MAX_HASH_CHARACTERS = 20;
+  var MAX_HASH = 5;
   var uploadButton = document.querySelector('#upload-file');
   var editForm = document.querySelector('.img-upload__overlay');
   var uploadForm = document.querySelector('.img-upload__form');
@@ -27,6 +29,7 @@
     editForm.classList.add('hidden');
     document.querySelector('body').classList.remove('modal-open');
     document.removeEventListener('keydown', pressEsc);
+    editForm.removeEventListener('click', onClickOut);
     uploadForm.reset();
     window.filter();
   };
@@ -49,7 +52,7 @@
 
   var onSuccess = function () {
     cancelForm();
-    window.message.renderSuccess();
+    window.message.success();
   };
 
   var error = 'Ошибка соединения...';
@@ -57,7 +60,7 @@
 
   var onError = function () {
     cancelForm();
-    window.message.renderError(error, errorButton);
+    window.message.error(error, errorButton);
   };
 
   uploadForm.addEventListener('submit', function (evt) {
@@ -65,11 +68,8 @@
     window.server.upload(new FormData(uploadForm), onSuccess, onError);
   });
 
-
   var hashtags = editForm.querySelector('.text__hashtags');
   var regexp = /[$%@#]+$/;
-  var MAX_HASH_CHARACTERS = 20;
-  var MAX_HASH = 5;
 
   hashtags.addEventListener('input', function () {
     var string = hashtags.value;

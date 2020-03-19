@@ -11,7 +11,6 @@
     document.querySelector('body').classList.add('modal-open');
     var successElement = document.querySelector('.success');
     var successButton = successElement.querySelector('.success__button');
-    // var successInner = successElement.querySelector('.success__inner');
 
     successElement.addEventListener('click', function (evt) {
       if (evt.target.classList.contains('success')) {
@@ -65,7 +64,7 @@
   };
 
   window.message = {
-    renderSuccess: renderSuccess,
-    renderError: renderError
+    success: renderSuccess,
+    error: renderError
   };
 })();
