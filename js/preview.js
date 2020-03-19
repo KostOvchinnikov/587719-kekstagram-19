@@ -88,7 +88,7 @@
 
 
   var onClickOut = function (evt) {
-    if (evt.target.classList.contains('big-picture__preview')) {
+    if (evt.target.classList.contains('big-picture')) {
       closeBigPicture();
     }
   };

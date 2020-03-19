@@ -20,6 +20,7 @@
     document.querySelector('body').classList.add('modal-open');
     editForm.classList.remove('hidden');
     document.addEventListener('keydown', pressEsc);
+    editForm.addEventListener('click', onClickOut);
   };
 
   var cancelForm = function () {
@@ -38,6 +39,13 @@
   cancelButton.addEventListener('click', function () {
     cancelForm();
   });
+
+
+  var onClickOut = function (evt) {
+    if (evt.target.classList.contains('img-upload__overlay')) {
+      cancelForm();
+    }
+  };
 
   var onSuccess = function () {
     cancelForm();
