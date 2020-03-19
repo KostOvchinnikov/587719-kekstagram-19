@@ -7,6 +7,9 @@
 
   var onClickRandom = function () {
     window.picture.renderPictures(getRandomData());
+    filterDefault.classList.remove('img-filters__button--active');
+    filterDiscussed.classList.remove('img-filters__button--active');
+    filterRandom.classList.add('img-filters__button--active');
   };
 
   var onClickRandomDebounce = window.debounce(onClickRandom);
@@ -20,6 +23,9 @@
     });
 
     window.picture.renderPictures(data);
+    filterRandom.classList.remove('img-filters__button--active');
+    filterDefault.classList.remove('img-filters__button--active');
+    filterDiscussed.classList.add('img-filters__button--active');
   };
 
   var onClickDiscussedDebounce = window.debounce(onClickDiscussed);
@@ -27,6 +33,9 @@
 
   var onClickDefault = function () {
     window.picture.renderPictures(window.picture.getData());
+    filterRandom.classList.remove('img-filters__button--active');
+    filterDiscussed.classList.remove('img-filters__button--active');
+    filterDefault.classList.add('img-filters__button--active');
   };
 
   var onClickDefaultDebounce = window.debounce(onClickDefault);
