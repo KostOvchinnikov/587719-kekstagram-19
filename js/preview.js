@@ -93,7 +93,5 @@
     }
   };
 
-  window.preview = {
-    showBig: showBigPicture
-  };
+  window.preview = showBigPicture;
 })();

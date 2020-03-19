@@ -12,7 +12,7 @@
     pictureElement.querySelector('.picture__likes').textContent = obj.likes;
 
     pictureElement.addEventListener('click', function () {
-      window.preview.showBig(obj);
+      window.preview(obj);
     });
 
     return pictureElement;
@@ -49,7 +49,6 @@
     }
   };
 
-
   var onError = function (error) {
     error();
   };
@@ -58,7 +57,7 @@
 
   window.picture = {
     getData: getData,
-    renderPictures: renderPictures
+    render: renderPictures
   };
 
 })();

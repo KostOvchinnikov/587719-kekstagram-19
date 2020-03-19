@@ -3,12 +3,11 @@
 (function () {
   var URL_LOAD = 'https://js.dump.academy/kekstagram/data';
   var URL_UPLOAD = 'https://js.dump.academy/kekstagram';
+  var TIMEOUT_IN_MS = 10000;
 
   var StatusCode = {
     OK: 200
   };
-
-  var TIMEOUT_IN_MS = 10000;
 
   var getXhr = function (onSuccess, onError) {
     var xhr = new XMLHttpRequest();
