@@ -21,10 +21,10 @@
   var renderPictures = function (array) {
     removePictures();
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < array.length; i++) {
-      var pictureElement = renderPicture(array[i]);
-      fragment.appendChild(pictureElement);
-    }
+    array.forEach(function (item) {
+      fragment.appendChild(renderPicture(item));
+    });
+
     pictureListElement.appendChild(fragment);
   };
 
@@ -43,10 +43,10 @@
   };
 
   var removePictures = function () {
-    var picture = document.querySelectorAll('.picture');
-    for (var i = 0; i < picture.length; i++) {
-      picture[i].remove();
-    }
+    var pictures = document.querySelectorAll('.picture');
+    pictures.forEach(function (item) {
+      item.remove();
+    });
   };
 
   var onError = function (error) {

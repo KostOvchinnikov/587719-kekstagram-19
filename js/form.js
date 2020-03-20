@@ -16,8 +16,9 @@
   var scale = editForm.querySelector('.scale__control--value');
   var scaleSmaller = editForm.querySelector('.scale__control--smaller');
   var scaleBigger = editForm.querySelector('.scale__control--bigger');
-  var imgPreview = editForm.querySelector('.img-upload__preview');
+  var imgPreview = editForm.querySelector('.img-upload__preview > img');
   var effectLevel = editForm.querySelector('.effect-level');
+  var body = document.querySelector('body');
 
   var scaleX = DEFAULT_SCALE_VALUE;
 
@@ -25,8 +26,7 @@
     if (scaleX <= MAX_SCALE_VALUE &&
       scaleX > MIN_SCALE_VALUE) {
       scaleX -= SCALE_VALUE_STEP;
-      scale.value = scaleX + '%';
-      imgPreview.style.transform = 'scale(' + (scaleX / 100) + ')';
+      setScale(scaleX);
     }
   };
 
@@ -34,13 +34,16 @@
     if (scaleX >= MIN_SCALE_VALUE &&
       scaleX < MAX_SCALE_VALUE) {
       scaleX += SCALE_VALUE_STEP;
-      scale.value = scaleX + '%';
-      imgPreview.style.transform = 'scale(' + (scaleX / 100) + ')';
+      setScale(scaleX);
     }
   };
 
+  var setScale = function (value) {
+    scale.value = value + '%';
+    imgPreview.style.transform = 'scale(' + (value / 100) + ')';
+  };
 
-  var pressEsc = function (evt) {
+  var onPressEsc = function (evt) {
     if (hashtags !== document.activeElement
       && commentArea !== document.activeElement
       && evt.keyCode === ESC) {
@@ -49,25 +52,23 @@
   };
 
   var openForm = function () {
-    document.querySelector('body').classList.add('modal-open');
+    body.classList.add('modal-open');
     editForm.classList.remove('hidden');
     scale.value = DEFAULT_SCALE_VALUE + '%';
     effectLevel.classList.add('hidden');
     scaleSmaller.addEventListener('click', onClickSmaller);
     scaleBigger.addEventListener('click', onClickBigger);
-    document.addEventListener('keydown', pressEsc);
-    editForm.addEventListener('click', onClickOut);
+    document.addEventListener('keydown', onPressEsc);
   };
 
   var cancelForm = function () {
     editForm.classList.add('hidden');
-    document.querySelector('body').classList.remove('modal-open');
+    body.classList.remove('modal-open');
     scaleBigger.removeEventListener('click', onClickBigger);
     scaleSmaller.removeEventListener('click', onClickSmaller);
-    imgPreview.style.transform = '';
+    imgPreview.style = '';
     scaleX = DEFAULT_SCALE_VALUE;
-    document.removeEventListener('keydown', pressEsc);
-    editForm.removeEventListener('click', onClickOut);
+    document.removeEventListener('keydown', onPressEsc);
     uploadForm.reset();
     window.filter();
   };
@@ -80,13 +81,6 @@
   cancelButton.addEventListener('click', function () {
     cancelForm();
   });
-
-
-  var onClickOut = function (evt) {
-    if (evt.target.classList.contains('img-upload__overlay')) {
-      cancelForm();
-    }
-  };
 
   var onSuccess = function () {
     cancelForm();
@@ -101,16 +95,16 @@
     window.message.error(error, errorButton);
   };
 
-  // uploadForm.addEventListener('submit', function (evt) {
-  //   evt.preventDefault();
-  //   window.server.upload(new FormData(uploadForm), onSuccess, onError);
-  // });
+  uploadForm.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    window.server.upload(new FormData(uploadForm), onSuccess, onError);
+  });
 
   var hashtags = editForm.querySelector('.text__hashtags');
-  var regexp = /[$%@#*]+$/;
+  var regexp = /^#[а-яa-z\d]+$/;
 
   hashtags.addEventListener('input', function () {
-    var string = hashtags.value;
+    var string = hashtags.value.toLowerCase().trim();
     var hashtagsArray = string.split(' ');
     var errorMessage = '';
 
@@ -130,7 +124,7 @@
       } else if (hash.length === 1) {
         errorMessage = 'Хэш-Тег не может состоять из одного символа!';
         break;
-      } else if (hash.match(regexp)) {
+      } else if (!regexp.test(hash)) {
         errorMessage = 'Хэш-Тег не должен содержать сторонних символов!';
         break;
       } else if (hashtagsArray.indexOf(hash) !== hashtagsArray.lastIndexOf(hash)) {
