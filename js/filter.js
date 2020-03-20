@@ -2,13 +2,15 @@
 
 (function () {
 
-  var MIN_LEVEL_PIN = 0;
-  var MAX_LEVEL_PIN = 450;
-  var MAX_PERCANTAGE_VALUE = 100;
-  var DEFAULT_PERCANTAGE_VALUE = 20;
+  var MIN_LEVEL_PIN = 0; // px
+  var MAX_LEVEL_PIN = 450; // px
+  var MAX_PERCANTAGE_VALUE = 100; // %
+  var DEFAULT_PERCANTAGE_VALUE = 20; // %
   var editForm = document.querySelector('.img-upload__overlay');
   var fieldset = editForm.querySelector('.img-upload__effects');
   var imgPreview = editForm.querySelector('.img-upload__preview');
+  var effectLevel = editForm.querySelector('.effect-level');
+
 
   fieldset.addEventListener('change', function () {
     setEffectFilter(MAX_PERCANTAGE_VALUE);
@@ -17,16 +19,22 @@
   var setEffectFilter = function (percantage) {
     var checked = fieldset.querySelector('.effects__radio:checked');
     if (checked.value === 'chrome') {
+      effectLevel.classList.remove('hidden');
       imgPreview.style.filter = 'grayscale(' + (percantage * 0.01) + ')';
     } else if (checked.value === 'sepia') {
+      effectLevel.classList.remove('hidden');
       imgPreview.style.filter = 'sepia(' + percantage * 0.01 + ')';
     } else if (checked.value === 'marvin') {
+      effectLevel.classList.remove('hidden');
       imgPreview.style.filter = 'invert(' + percantage + '%)';
     } else if (checked.value === 'phobos') {
+      effectLevel.classList.remove('hidden');
       imgPreview.style.filter = 'blur(' + percantage * 0.03 + 'px)';
     } else if (checked.value === 'heat') {
+      effectLevel.classList.remove('hidden');
       imgPreview.style.filter = 'brightness(' + (1 + percantage * 0.02) + ')';
     } else if (checked.value === 'none') {
+      effectLevel.classList.add('hidden');
       imgPreview.style.filter = 'none';
     }
 
